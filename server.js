@@ -1,17 +1,19 @@
+require('dotenv').config(); // Load environment variables from .env file
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const mysql = require('mysql2');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 // Middleware
 app.use(bodyParser.json());
 
 // FreshSales API configuration
-const CRM_BASE_URL = 'https://nil1-744143548239753289.myfreshworks.com/crm/sales/api/contacts';
-const CRM_API_KEY = 'v6ys-8l38_GW5A4finluOA';
+const CRM_BASE_URL = process.env.CRM_BASE_URL;
+const CRM_API_KEY = process.env.CRM_API_KEY;
 const CRM_HEADERS = {
   'Authorization': `Token token=${CRM_API_KEY}`,
   'Content-Type': 'application/json'
@@ -19,10 +21,10 @@ const CRM_HEADERS = {
 
 // MySQL configuration
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'Kmlk@1969',
-  database: 'contact_db'
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
 });
 
 db.connect((err) => {
